@@ -73,21 +73,14 @@
             const form = document.getElementById('sj-form');
             const input = document.getElementById('sj-address');
 
-            let attempts = 0;
-            const trySubmit = setInterval(() => {
-                attempts++;
+            // Give Scramjet 1 second to fully boot and attach its event listeners
+            setTimeout(() => {
                 if (form && input) {
                     input.value = targetUrl;
-                    
-                    // Trigger form submission directly
+                    // Fire the submit event exactly once
                     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-
-                    // Stop trying once the URL changes or we hit 20 attempts (1 second)
-                    if (window.location.search === '' || attempts > 20) {
-                        clearInterval(trySubmit);
-                    }
                 }
-            }, 50);
+            }, 1000); 
         }
     });
 </script>
