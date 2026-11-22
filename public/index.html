@@ -64,26 +64,25 @@
 		</footer>
 
 		<!-- ADD THIS SCRIPT -->
-		<script>
+<script>
     window.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
         
         if (targetUrl) {
-            const input = document.getElementById('sj-address');
             const form = document.getElementById('sj-form');
+            const input = document.getElementById('sj-address');
 
-            // Scramjet's search.js usually attaches its listener on load.
-            // We poll every 50ms to see if the listener is attached, then fire.
             let attempts = 0;
             const trySubmit = setInterval(() => {
                 attempts++;
-                if (input && form) {
+                if (form && input) {
                     input.value = targetUrl;
-                    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true }));
                     
-                    // If it succeeds, stop polling. 
-                    // If the URL changes or the input disappears, Scramjet took over.
+                    // Trigger form submission directly
+                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+
+                    // Stop trying once the URL changes or we hit 20 attempts (1 second)
                     if (window.location.search === '' || attempts > 20) {
                         clearInterval(trySubmit);
                     }
