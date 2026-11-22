@@ -63,6 +63,14 @@
 			</div>
 		</footer>
 
+<script src="register-sw.js"></script>
+<script>
+    // Fire the SW registration instantly in the background
+    if (typeof registerSW === 'function') {
+        registerSW().catch(console.error);
+    }
+</script>
+
 		<!-- ADD THIS SCRIPT -->
 <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -80,7 +88,7 @@
                     // Fire the submit event exactly once
                     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
                 }
-            }, 1000); 
+            }, 100); 
         }
     });
 </script>
