@@ -78,17 +78,28 @@
         const targetUrl = urlParams.get('url');
         
         if (targetUrl) {
-            const form = document.getElementById('sj-form');
-            const input = document.getElementById('sj-address');
+            let attempts = 0;
+            // Check every 100ms for up to 5 seconds to see if Scramjet is ready
+            const interval = setInterval(() => {
+                attempts++;
+                const form = document.getElementById('sj-form');
+                const input = document.getElementById('sj-address');
 
-            // Give Scramjet 1 second to fully boot and attach its event listeners
-            setTimeout(() => {
-                if (form && input) {
+                // If the form exists and we haven't submitted yet
+                if (form && input && input.value === '') {
                     input.value = targetUrl;
-                    // Fire the submit event exactly once
+                    
+                    // Trigger the form submission
                     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    
+                    // Clean up
+                    clearInterval(interval);
                 }
-            }, 1000); 
+
+                if (attempts > 50) {
+                    clearInterval(interval); // Give up after 5 seconds
+                }
+            }, 100);
         }
     });
 </script>
