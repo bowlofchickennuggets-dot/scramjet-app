@@ -3,10 +3,9 @@
 	"version": "2.0.0",
 	"description": "The demo application for Scramjet, a high-performance web proxy.",
 	"type": "module",
-	"engines": {
-		"npm": ">=7.0.0",
-		"node": ">=16.0.0"
-	},
+  "engines": {
+    "node": ">=20"
+  },
 	"scripts": {
 		"start": "node src/index.js",
 		"format": "prettier --write .",
