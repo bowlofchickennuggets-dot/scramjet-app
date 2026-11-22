@@ -62,5 +62,34 @@
 				<span>Scramjet &copy; MW 2025</span>
 			</div>
 		</footer>
+
+		<!-- ADD THIS SCRIPT -->
+		<script>
+			window.addEventListener('DOMContentLoaded', () => {
+				const urlParams = new URLSearchParams(window.location.search);
+				const targetUrl = urlParams.get('url');
+				
+				if (targetUrl) {
+					// Wait a brief moment for Scramjet to initialize
+					setTimeout(() => {
+						const input = document.getElementById('sj-address');
+						const form = document.getElementById('sj-form');
+						
+						if (input && form) {
+							input.value = targetUrl;
+							// Dispatch an Enter key to trigger the Scramjet form handler
+							input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true }));
+							
+							// Fallback: if the event didn't work, submit the form
+							setTimeout(() => {
+								if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+									form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+								}
+							}, 100);
+						}
+					}, 500); // 500ms delay to ensure SW and JS are ready
+				}
+			});
+		</script>
 	</body>
 </html>
